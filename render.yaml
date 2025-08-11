@@ -1,13 +1,13 @@
 services:
-  - type: worker
+  - type: web
     name: zer0-discord-bot
     env: node
     plan: free
     rootDir: zer0-bot
     buildCommand: npm ci
     startCommand: node deploy-commands.js && npm start
-    
     autoDeploy: true
+    healthCheckPath: /
     envVars:
       - key: TOKEN
         sync: false

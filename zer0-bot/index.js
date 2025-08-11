@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import http from 'node:http';
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import config from './config.json' assert { type: 'json' };
 import { db } from './utils/db.js';
@@ -63,3 +64,13 @@ process.on('uncaughtException', (err) => console.error('Uncaught Exception:', er
     await resumeAllGiveaways(client);
   });
 })();
+
+// Minimal HTTP server for Render Web Service health checks
+const port = process.env.PORT || 3000;
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('zer0-discord-bot is running');
+});
+server.listen(port, () => {
+  console.log(`Health server listening on port ${port}`);
+});
