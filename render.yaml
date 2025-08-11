@@ -4,7 +4,7 @@ services:
     env: node
     plan: free
     rootDir: zer0-bot
-    buildCommand: npm ci
+    buildCommand: npm install
     startCommand: node deploy-commands.js && npm start
     autoDeploy: true
     healthCheckPath: /
