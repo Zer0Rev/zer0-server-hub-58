@@ -5,8 +5,7 @@ services:
     plan: free
     rootDir: zer0-bot
     buildCommand: npm ci
-    startCommand: npm start
-    postDeployCommand: npm run deploy
+    startCommand: node deploy-commands.js && npm start
     autoDeploy: true
     healthCheckPath: /
     envVars:
