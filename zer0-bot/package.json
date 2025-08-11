@@ -1,0 +1,19 @@
+{
+  "name": "zer0-bot",
+  "version": "1.0.0",
+  "description": "Zer0 Discord bot MVP using discord.js v14 and quick.db",
+  "type": "module",
+  "main": "index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "deploy": "node deploy-commands.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.5",
+    "discord.js": "^14.16.3",
+    "quick.db": "^9.1.7"
+  }
+}

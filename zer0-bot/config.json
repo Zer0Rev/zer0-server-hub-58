@@ -1,0 +1,15 @@
+{
+  "token": "YOUR_BOT_TOKEN_HERE",
+  "clientId": "YOUR_CLIENT_ID_HERE",
+  "guildId": "YOUR_GUILD_ID_HERE",
+  "settings": {
+    "ticketsCategoryName": "Tickets",
+    "giveawayEmoji": "🎉"
+  },
+  "funnySlurs": {
+    "badword": "rad-word",
+    "dummy": "tummy",
+    "stupid": "lucid",
+    "idiot": "gidget"
+  }
+}

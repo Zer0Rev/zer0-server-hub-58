@@ -1,0 +1,45 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { REST, Routes } from 'discord.js';
+import config from './config.json' assert { type: 'json' };
+
+async function getCommands() {
+  const commands = [];
+  const commandsPath = path.join(process.cwd(), 'zer0-bot', 'commands');
+  const files = fs.readdirSync(commandsPath).filter(f => f.endsWith('.js'));
+  for (const file of files) {
+    const filePath = path.join(commandsPath, file);
+    const mod = await import(pathToFileURL(filePath).href);
+    if (mod?.data) {
+      commands.push(mod.data.toJSON());
+    }
+  }
+  return commands;
+}
+
+(async () => {
+  try {
+    const token = process.env.TOKEN || config.token;
+    const clientId = process.env.CLIENT_ID || config.clientId;
+    const guildId = process.env.GUILD_ID || config.guildId;
+
+    if (!token || !clientId) {
+      throw new Error('Missing TOKEN or CLIENT_ID. Set env vars or fill config.json');
+    }
+
+    const rest = new REST({ version: '10' }).setToken(token);
+    const commands = await getCommands();
+
+    if (guildId && guildId !== 'YOUR_GUILD_ID_HERE') {
+      await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
+      console.log(`Successfully registered ${commands.length} guild commands to ${guildId}.`);
+    } else {
+      await rest.put(Routes.applicationCommands(clientId), { body: commands });
+      console.log(`Successfully registered ${commands.length} global commands.`);
+    }
+  } catch (error) {
+    console.error('Error deploying commands:', error);
+    process.exit(1);
+  }
+})();
