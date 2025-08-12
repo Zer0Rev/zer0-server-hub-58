@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import http from 'node:http';
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
 import config from './config.json' assert { type: 'json' };
@@ -21,7 +21,8 @@ const client = new Client({
 client.commands = new Collection();
 
 async function loadCommands() {
-  const commandsPath = path.join(process.cwd(), 'zer0-bot', 'commands');
+  const baseDir = path.dirname(fileURLToPath(import.meta.url));
+  const commandsPath = path.join(baseDir, 'commands');
   const files = fs.readdirSync(commandsPath).filter(f => f.endsWith('.js'));
   for (const file of files) {
     const filePath = path.join(commandsPath, file);
@@ -33,7 +34,8 @@ async function loadCommands() {
 }
 
 async function loadEvents() {
-  const eventsPath = path.join(process.cwd(), 'zer0-bot', 'events');
+  const baseDir = path.dirname(fileURLToPath(import.meta.url));
+  const eventsPath = path.join(baseDir, 'events');
   const files = fs.readdirSync(eventsPath).filter(f => f.endsWith('.js'));
   for (const file of files) {
     const filePath = path.join(eventsPath, file);

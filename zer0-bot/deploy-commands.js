@@ -1,12 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { REST, Routes } from 'discord.js';
 import config from './config.json' assert { type: 'json' };
 
 async function getCommands() {
   const commands = [];
-  const commandsPath = path.join(process.cwd(), 'zer0-bot', 'commands');
+  const baseDir = path.dirname(fileURLToPath(import.meta.url));
+  const commandsPath = path.join(baseDir, 'commands');
   const files = fs.readdirSync(commandsPath).filter(f => f.endsWith('.js'));
   for (const file of files) {
     const filePath = path.join(commandsPath, file);
