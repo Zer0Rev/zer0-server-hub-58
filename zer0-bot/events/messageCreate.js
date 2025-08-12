@@ -16,7 +16,8 @@ export async function execute(client, message) {
   try {
     if (!slurRegex) return;
     if (!message.guild) return; // ignore DMs
-    if (message.author.bot) return;
+    if (message.author?.bot) return;
+    if (!message.content) return; // No Message Content intent available
 
     if (!slurRegex.test(message.content)) return;
 
@@ -31,3 +32,4 @@ export async function execute(client, message) {
     console.error('messageCreate filter error:', err);
   }
 }
+

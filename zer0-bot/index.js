@@ -10,9 +10,11 @@ import { resumeAllGiveaways } from './utils/giveaway.js';
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMembers,
+    // Removed privileged intents by default to avoid "Used disallowed intents" errors.
+    // Enable these in Discord Developer Portal if you need them, then re-add:
+    // GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
+    // GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMessageReactions,
   ],
   partials: [Partials.Channel, Partials.Message, Partials.Reaction, Partials.User, Partials.GuildMember],
