@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import { db, pushArray } from '../utils/db.js';
 import { scheduleGiveaway } from '../utils/giveaway.js';
-import config from '../config.json' assert { type: 'json' };
+import config from '../config.json' with { type: 'json' };
 
 export const data = new SlashCommandBuilder()
   .setName('giveaway')

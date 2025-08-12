@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
 import { db, getArray } from './db.js';
-import config from '../config.json' assert { type: 'json' };
+import config from '../config.json' with { type: 'json' };
 
 const timeouts = new Map();
 

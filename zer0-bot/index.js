@@ -3,7 +3,7 @@ import path from 'node:path';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import http from 'node:http';
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
-import config from './config.json' assert { type: 'json' };
+import config from './config.json' with { type: 'json' };
 import { db } from './utils/db.js';
 import { resumeAllGiveaways } from './utils/giveaway.js';
 

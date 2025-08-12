@@ -1,7 +1,18 @@
 import { QuickDB } from 'quick.db';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-// Single shared DB instance
-export const db = new QuickDB({ filePath: './zer0-bot/data.sqlite' });
+// Resolve data file relative to this file and ensure directory exists
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const dataDir = path.resolve(__dirname, '..'); // zer0-bot/
+const dataFile = path.join(dataDir, 'data.sqlite');
+try {
+  fs.mkdirSync(dataDir, { recursive: true });
+} catch {}
+
+// Single shared DB instance using absolute path
+export const db = new QuickDB({ filePath: dataFile });
 
 export async function getArray(key) {
   return (await db.get(key)) || [];
