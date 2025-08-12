@@ -33,8 +33,21 @@ async function getCommands() {
     const commands = await getCommands();
 
     if (guildId && guildId !== 'YOUR_GUILD_ID_HERE') {
-      await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
-      console.log(`Successfully registered ${commands.length} guild commands to ${guildId}.`);
+      try {
+        await rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands });
+        console.log(`Successfully registered ${commands.length} guild commands to ${guildId}.`);
+      } catch (err) {
+        // Fallback to global on Missing Access or permission errors
+        const code = err?.code || err?.rawError?.code;
+        const status = err?.status;
+        if (status === 403 || code === 50001 || code === 50013) {
+          console.warn(`Guild command registration failed (${status || code}). Falling back to GLOBAL commands...`);
+          await rest.put(Routes.applicationCommands(clientId), { body: commands });
+          console.log(`Successfully registered ${commands.length} global commands.`);
+        } else {
+          throw err;
+        }
+      }
     } else {
       await rest.put(Routes.applicationCommands(clientId), { body: commands });
       console.log(`Successfully registered ${commands.length} global commands.`);
